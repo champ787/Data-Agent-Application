@@ -52,4 +52,11 @@
         android:layout_margin="12dp"
         android:text="create group" />
 
+    <Button
+        android:id="@+id/btnProgress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:text="Total Progress" />
+
 </LinearLayout>

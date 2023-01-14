@@ -1,6 +1,7 @@
 package github.leavesczy.wifip2p
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -46,6 +47,8 @@ class MainActivity : BaseActivity() {
         }
     }
 
+
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -70,6 +73,15 @@ class MainActivity : BaseActivity() {
                 onPermissionDenied()
             }
         }
+        findViewById<View>(R.id.btnProgress).setOnClickListener {
+            if (allPermissionGranted()) {
+                startActivity(Monitor_Progress::class.java)
+            } else {
+                onPermissionDenied()
+            }
+        }
+
+
     }
 
     private fun onPermissionDenied() {

@@ -8,35 +8,36 @@
     android:background="@drawable/backimage">
 
 
-    <HorizontalScrollView
-        android:layout_width="295dp"
-        android:layout_height="99dp"
+<!--    <HorizontalScrollView-->
+<!--        android:layout_width="276dp"-->
+<!--        android:layout_height="54dp"-->
 
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="117dp"
-        android:layout_marginEnd="-2dp"
-        android:layout_marginBottom="92dp"
-        android:padding="30dp">
+<!--        android:layout_alignParentStart="true"-->
+<!--        android:layout_alignParentEnd="true"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:layout_marginStart="152dp"-->
+<!--        android:layout_marginEnd="-17dp"-->
+<!--        android:layout_marginBottom="136dp"-->
+<!--        android:padding="30dp">-->
 
-        <ScrollView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+<!--        <ScrollView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content">-->
 
-            <TextView
-                android:id="@+id/csvtext"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:maxHeight="400dp"
+<!--            <TextView-->
+<!--                android:id="@+id/csvtext"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:maxHeight="400dp"-->
+<!--                android:text="hello"-->
+<!--                android:textColor="@color/white"-->
+<!--                android:textSize="18dp"-->
 
-                android:textColor="@color/white"
-                android:textSize="18dp"
+<!--                />-->
+<!--        </ScrollView>-->
 
-                />
-        </ScrollView>
+<!--    </HorizontalScrollView>-->
 
-    </HorizontalScrollView>
 
     <Button
         android:id="@+id/button"
@@ -99,12 +100,12 @@
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="141dp"
+        android:layout_width="159dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="270dp"
-        android:layout_marginBottom="143dp"
+        android:layout_marginEnd="252dp"
+        android:layout_marginBottom="142dp"
         android:text="Current Volume : "
         android:textColor="@color/white"
 
@@ -143,6 +144,109 @@
         android:fontFamily="sans-serif-condensed"
         android:text="Database Operations"
         android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/regionprogress"
+        android:layout_width="232dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="-4dp"
+        android:layout_marginBottom="111dp"
+        android:layout_toStartOf="@+id/regionalprogress"
+        android:text="Regional Relative Progress : "
+
+        android:textColor="@color/white"
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/regionalprogress"
+        android:layout_width="136dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="21dp"
+        android:layout_marginBottom="111dp"
+        android:text="...."
+        android:textColor="@color/white"
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/totallprogress"
+        android:layout_width="202dp"
+        android:layout_height="25dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="212dp"
+        android:layout_marginBottom="73dp"
+        android:text="Total Progress : "
+        android:textColor="@color/white"
+
+        android:textSize="16dp" />
+
+
+    <TextView
+        android:id="@+id/totalprogress"
+        android:layout_width="161dp"
+        android:layout_height="32dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="100dp"
+        android:layout_marginBottom="64dp"
+        android:text="...."
+        android:textColor="@color/white"
+        android:textSize="16dp" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="188dp"
+        android:layout_height="182dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="111dp"
+        android:layout_marginBottom="413dp"
+        android:indeterminateOnly="false"
+        android:progressDrawable="@drawable/circle"
+        tools:progress="0" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="58dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="172dp"
+        android:layout_marginBottom="468dp"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/progresstext"
+        android:layout_width="103dp"
+        android:layout_height="89dp"
+        android:layout_alignStart="@+id/progressBar"
+        android:layout_alignTop="@+id/progressBar"
+        android:layout_alignEnd="@+id/progressBar"
+        android:layout_alignBottom="@+id/progressBar"
+        android:layout_marginStart="42dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="42dp"
+        android:layout_marginBottom="43dp"
+        android:fontFamily="serif"
+        android:text="Total Progress"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="24dp" />
+
+    <TextView
+        android:id="@+id/csvtext"
+        android:layout_width="157dp"
+        android:layout_height="30dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="91dp"
+        android:layout_marginBottom="136dp"
+        android:textColor="@color/white"
+        android:textSize="16dp"
+        android:text="...." />
 
 
 </RelativeLayout>

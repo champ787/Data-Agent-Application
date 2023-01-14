@@ -11,12 +11,10 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.ContactsContract;
 import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
@@ -29,8 +27,12 @@ import com.chaquo.python.PyObject;
 import com.chaquo.python.Python;
 import com.chaquo.python.android.AndroidPlatform;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class algorithm extends AppCompatActivity {
@@ -41,9 +43,19 @@ public class algorithm extends AppCompatActivity {
     private Button calculate;
     private Button viewdb;
     private Button droptable;
+    private TextView regional_progress;
+    private TextView total_progress_tv;
+    String filename="progress.txt";
+    String filepath="ProgressDir";
     DatabaseHelper regiondb;
     private EditText proportion;
+    public float current_volume=0;
+    private ProgressBar progress_bar;
+    private TextView progress_text;
+    private float global_proportion=0;
 
+
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +71,10 @@ public class algorithm extends AppCompatActivity {
         proportion=findViewById(R.id.proportion);
         viewdb=findViewById(R.id.btnViewdb);
         droptable=findViewById(R.id.btnDroptable);
+        regional_progress=findViewById(R.id.regionalprogress);
+        total_progress_tv=findViewById(R.id.totalprogress);
+        progress_bar=findViewById(R.id.progressBar);
+        progress_text=findViewById(R.id.progresstext);
 
         if (!Python.isStarted())
             Python.start(new AndroidPlatform(this));
@@ -71,13 +87,61 @@ public class algorithm extends AppCompatActivity {
             public void onClick(View view) {
                 PyObject pyobj = py.getModule("algorithm");
                 PyObject obj = pyobj.callAttr("main",path);
-                String progress=obj.toString();
-                csvText.setText(progress);
+                String c_volume=obj.toString();
+
+                current_volume=Float.valueOf(c_volume);
+                csvText.setText(c_volume);
+
+                float avg_look_back=0;
+                float relative_progress=0;
+                float total_progress=0;
+                int count=regiondb.counter();
+                boolean insertion=false;
+
 
 
                 float proportion_val = Float.parseFloat(proportion.getText().toString());
-                boolean insertion=regiondb.addData((float)26.3,proportion_val);
+                global_proportion=proportion_val;
+//                boolean insertion=regiondb.addData((float)26.3,proportion_val);
+//                Cursor avg_look_back_cursor=regiondb.get_avg_lookback();
 
+                 if(count==1)
+                {
+
+                    insertion=regiondb.addData(current_volume,proportion_val);
+                    Cursor avg_look_back_cursor=regiondb.get_avg_lookback();
+                    relative_progress = current_volume;
+                    total_progress = total_progress(relative_progress, proportion_val);
+
+                    regional_progress.setText(Float.toString(relative_progress));
+                    total_progress_tv.setText(Float.toString(total_progress));
+
+                    Toast.makeText(algorithm.this, "Data Found "+count, Toast.LENGTH_LONG).show();
+
+                }
+                else {
+                    Cursor avg_look_back_cursor=regiondb.get_avg_lookback();
+
+                    if (avg_look_back_cursor.getCount() == 0) {
+                        Toast.makeText(algorithm.this, "No Data Found", Toast.LENGTH_LONG).show();
+
+                    } else {
+                        if (avg_look_back_cursor.moveToNext()) {
+
+                            avg_look_back = avg_look_back_cursor.getFloat(0);
+                            insertion=regiondb.addData((current_volume+avg_look_back),proportion_val);
+                            relative_progress = relative_progress((avg_look_back/count));
+                            total_progress = total_progress(relative_progress, proportion_val);
+
+                            regional_progress.setText(Float.toString(relative_progress));
+                            total_progress_tv.setText(Float.toString(total_progress));
+
+                            Toast.makeText(algorithm.this, "Data Found ", Toast.LENGTH_LONG).show();
+
+                        }
+                    }
+                }
+                updateprogressBar(total_progress);
 
                 if(insertion==true)
                 {
@@ -87,6 +151,59 @@ public class algorithm extends AppCompatActivity {
                 {
                     Toast.makeText(algorithm.this,"Data insertion failed",Toast.LENGTH_LONG).show();
                 }
+
+                //Progress is being recorded in to the text file
+
+                if(ExternalStorageAvailable()) {
+                    if (total_progress != 0) {
+                        // File myExternalFile = new File(getExternalFilesDir(filepath), filename);
+
+
+                        File myExternalFile = new File("/storage/emulated/0/Download", filename);
+
+
+                        if (!myExternalFile.exists()) {
+                            FileOutputStream fos = null;
+                            try {
+                                fos = new FileOutputStream(myExternalFile);
+                                fos.write(Float.toString(total_progress).getBytes());
+                            } catch (FileNotFoundException e) {
+                                e.printStackTrace();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            Toast.makeText(algorithm.this, "Text File Created", Toast.LENGTH_LONG).show();
+                        }
+                        else {
+                            FileReader fr=null;
+                            File myexternalfile=new File(getExternalFilesDir("/storage/emulated/0/Download"),"progress.txt");
+                            StringBuilder stringbuilder =new StringBuilder();
+                            FileOutputStream fos = null;
+                            try{
+                                fr=new FileReader(myExternalFile);
+                                BufferedReader br=new BufferedReader(fr);
+                                String line=br.readLine();
+                                if(line!=null)
+                                {
+                                    float old_progress=Float.valueOf(line);
+                                    total_progress+=old_progress;
+                                    fos = new FileOutputStream(myExternalFile);
+                                    fos.write(Float.toString(total_progress).getBytes());
+                                }
+
+                            } catch (FileNotFoundException e) {
+                                e.printStackTrace();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+
+                            Toast.makeText(algorithm.this, "File Updated", Toast.LENGTH_LONG).show();
+                        }
+
+                    }
+
+                }
             }
         });
 
@@ -95,6 +212,7 @@ public class algorithm extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 regiondb.Emptytable();
+               regiondb.addData((float)0,global_proportion);
 
                 Toast.makeText(algorithm.this, "Data Deleted Successfully", Toast.LENGTH_LONG).show();
             }
@@ -159,6 +277,15 @@ public class algorithm extends AppCompatActivity {
                 display("All Stored Data", buffer.toString());
             }
         });
+    }
+
+    private boolean ExternalStorageAvailable() {
+        String External_storage_state=Environment.getExternalStorageState();
+        if(External_storage_state.equals(Environment.MEDIA_MOUNTED))
+        {
+            return true;
+        }
+        return false;
     }
 
 
@@ -229,9 +356,22 @@ public class algorithm extends AppCompatActivity {
 
     }
 
-    
+    public float relative_progress(float avg_look_back)
+    {
+        float relative_progress=current_volume/avg_look_back;
 
+        return relative_progress;
+    }
+    public float total_progress(float relativ_progress,float proportion)
+    {
+        return relativ_progress*(proportion/100);
+    }
 
+    private void updateprogressBar(float progress)
+    {
+        progress_bar.setProgress((int)progress);
+        progress_text.setText(String.format("%.2f", progress)+" %");
 
+    }
 
 }
