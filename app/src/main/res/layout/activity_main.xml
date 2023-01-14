@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:background="@drawable/backimage"
+    >
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="Instructions-"
+        android:textColor="@android:color/white"
+        android:textSize="25sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="1. Both the end need to turn on wifi  \n\n2. The file receiving end creates the group first, and the file sending end searches for the device and clicks to connect \n\n 3.After the connection is successful, the file receiving end first starts monitoring, and then the file sending end selects the file to send."
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_width="389dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:fontFamily="sans-serif-medium"
+        android:text=" *Turn on Wi-Fi Direct and grant GPS permission"
+        android:textColor="@android:color/white"
+        android:textSize="14sp" />
+    <Button
+        android:id="@+id/btnCheckPermission"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:text="Device permissions" />
+
+    <Button
+        android:id="@+id/btnSender"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:text="Send file/ Calculate progress" />
+
+    <Button
+        android:id="@+id/btnReceiver"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:text="create group" />
+
+</LinearLayout>

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:background="@drawable/backimage">
+
+
+    <HorizontalScrollView
+        android:layout_width="295dp"
+        android:layout_height="99dp"
+
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="117dp"
+        android:layout_marginEnd="-2dp"
+        android:layout_marginBottom="92dp"
+        android:padding="30dp">
+
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/csvtext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxHeight="400dp"
+
+                android:textColor="@color/white"
+                android:textSize="18dp"
+
+                />
+        </ScrollView>
+
+    </HorizontalScrollView>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="369dp"
+        android:text="Select" />
+
+    <Button
+        android:id="@+id/calculate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/csv"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="86dp"
+        android:layout_marginBottom="200dp"
+        android:text="Calculate"
+        tools:ignore="UnknownId" />
+
+    <TextView
+        android:id="@+id/instructions"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="670dp"
+        android:text="*First select csv file then calculate the progress"
+        android:textColor="@color/white"
+        android:textSize="17dp" />
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="385dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="22dp"
+        android:layout_marginBottom="325dp"
+        android:text="*Fill your proportion in decimal in overall progress"
+
+        android:textColor="@color/white"
+
+        />
+
+    <EditText
+        android:id="@+id/proportion"
+        android:layout_width="168dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="119dp"
+        android:layout_marginBottom="268dp"
+        android:background="@color/white"
+        android:ems="10"
+        android:inputType="numberDecimal"
+
+        android:textAlignment="center"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="141dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="270dp"
+        android:layout_marginBottom="143dp"
+        android:text="Current Volume : "
+        android:textColor="@color/white"
+
+        android:textSize="16dp" />
+
+    <Button
+        android:id="@+id/btnViewdb"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="13dp"
+        android:layout_marginEnd="198dp"
+        android:layout_marginBottom="588dp"
+        android:text="View Database" />
+
+    <Button
+        android:id="@+id/btnDroptable"
+        android:layout_width="175dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="588dp"
+        android:text="Drop Table" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="360dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="641dp"
+        android:fontFamily="sans-serif-condensed"
+        android:text="Database Operations"
+        android:textColor="@color/white" />
+
+
+</RelativeLayout>
