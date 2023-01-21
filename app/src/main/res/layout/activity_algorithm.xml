@@ -100,16 +100,16 @@
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="159dp"
+        android:layout_width="188dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="252dp"
-        android:layout_marginBottom="142dp"
+        android:layout_marginEnd="218dp"
+        android:layout_marginBottom="141dp"
         android:text="Current Volume : "
         android:textColor="@color/white"
 
-        android:textSize="16dp" />
+        android:textSize="20dp" />
 
     <Button
         android:id="@+id/btnViewdb"
@@ -145,30 +145,31 @@
         android:text="Database Operations"
         android:textColor="@color/white" />
 
+
     <TextView
         android:id="@+id/regionprogress"
-        android:layout_width="232dp"
+        android:layout_width="264dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="-4dp"
-        android:layout_marginBottom="111dp"
+        android:layout_marginEnd="-3dp"
+        android:layout_marginBottom="106dp"
         android:layout_toStartOf="@+id/regionalprogress"
         android:text="Regional Relative Progress : "
 
         android:textColor="@color/white"
-        android:textSize="16dp" />
+        android:textSize="20dp" />
 
     <TextView
         android:id="@+id/regionalprogress"
-        android:layout_width="136dp"
+        android:layout_width="127dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="21dp"
-        android:layout_marginBottom="111dp"
-        android:text="...."
+        android:layout_marginEnd="-2dp"
+        android:layout_marginBottom="106dp"
+        android:text=""
         android:textColor="@color/white"
-        android:textSize="16dp" />
+        android:textSize="20dp" />
 
     <TextView
         android:id="@+id/totallprogress"
@@ -176,25 +177,24 @@
         android:layout_height="25dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="212dp"
-        android:layout_marginBottom="73dp"
+        android:layout_marginEnd="204dp"
+        android:layout_marginBottom="74dp"
         android:text="Total Progress : "
         android:textColor="@color/white"
 
-        android:textSize="16dp" />
-
+        android:textSize="20dp" />
 
     <TextView
         android:id="@+id/totalprogress"
-        android:layout_width="161dp"
-        android:layout_height="32dp"
+        android:layout_width="209dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="100dp"
-        android:layout_marginBottom="64dp"
-        android:text="...."
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="72dp"
+        android:text=""
         android:textColor="@color/white"
-        android:textSize="16dp" />
+        android:textSize="20dp" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -238,15 +238,15 @@
 
     <TextView
         android:id="@+id/csvtext"
-        android:layout_width="157dp"
-        android:layout_height="30dp"
+        android:layout_width="176dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="91dp"
-        android:layout_marginBottom="136dp"
+        android:layout_marginEnd="52dp"
+        android:layout_marginBottom="141dp"
+        android:text=""
         android:textColor="@color/white"
-        android:textSize="16dp"
-        android:text="...." />
+        android:textSize="20dp" />
 
 
 </RelativeLayout>

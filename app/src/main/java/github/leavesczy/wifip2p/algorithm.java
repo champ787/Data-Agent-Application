@@ -9,9 +9,12 @@ import androidx.core.app.ActivityCompat;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -90,7 +93,7 @@ public class algorithm extends AppCompatActivity {
                 String c_volume=obj.toString();
 
                 current_volume=Float.valueOf(c_volume);
-                csvText.setText(c_volume);
+                csvText.setText(String.format("%.4f", current_volume));
 
                 float avg_look_back=0;
                 float relative_progress=0;
@@ -113,8 +116,8 @@ public class algorithm extends AppCompatActivity {
                     relative_progress = current_volume;
                     total_progress = total_progress(relative_progress, proportion_val);
 
-                    regional_progress.setText(Float.toString(relative_progress));
-                    total_progress_tv.setText(Float.toString(total_progress));
+//                    regional_progress.setText(Float.toString(relative_progress));
+//                    total_progress_tv.setText(Float.toString(total_progress));
 
                     Toast.makeText(algorithm.this, "Data Found "+count, Toast.LENGTH_LONG).show();
 
@@ -133,15 +136,14 @@ public class algorithm extends AppCompatActivity {
                             relative_progress = relative_progress((avg_look_back/count));
                             total_progress = total_progress(relative_progress, proportion_val);
 
-                            regional_progress.setText(Float.toString(relative_progress));
-                            total_progress_tv.setText(Float.toString(total_progress));
+
 
                             Toast.makeText(algorithm.this, "Data Found ", Toast.LENGTH_LONG).show();
 
                         }
                     }
                 }
-                updateprogressBar(total_progress);
+//                updateprogressBar(total_progress);
 
                 if(insertion==true)
                 {
@@ -166,7 +168,8 @@ public class algorithm extends AppCompatActivity {
                             FileOutputStream fos = null;
                             try {
                                 fos = new FileOutputStream(myExternalFile);
-                                fos.write(Float.toString(total_progress).getBytes());
+                                String data=String.format("%.2f", total_progress)+","+getMAC()+"@"+String.format("%.2f", relative_progress);
+                                fos.write(data.getBytes());
                             } catch (FileNotFoundException e) {
                                 e.printStackTrace();
                             } catch (IOException e) {
@@ -183,13 +186,35 @@ public class algorithm extends AppCompatActivity {
                                 fr=new FileReader(myExternalFile);
                                 BufferedReader br=new BufferedReader(fr);
                                 String line=br.readLine();
-                                if(line!=null)
+//                                if(line!=null)
+//                                {
+//                                    float old_progress=Float.valueOf(line);
+//                                    total_progress+=old_progress;
+//                                    fos = new FileOutputStream(myExternalFile);
+//                                    fos.write(Float.toString(total_progress).getBytes());
+//                                }
+
+                                while(line!=null)
                                 {
-                                    float old_progress=Float.valueOf(line);
-                                    total_progress+=old_progress;
-                                    fos = new FileOutputStream(myExternalFile);
-                                    fos.write(Float.toString(total_progress).getBytes());
+                                    stringbuilder.append(line);
+                                     line=br.readLine();
                                 }
+                                String text_data=stringbuilder.toString();
+
+                                char[] prgress=text_data.toCharArray();
+                                int index=0;
+                                String extracted_total_progress="";
+                                while(prgress[index]!=',') {
+
+                                        extracted_total_progress+=prgress[index];
+                                        index++;
+                                }
+                                float old_progress=Float.valueOf(extracted_total_progress);
+                                total_progress+=old_progress;
+                                String data=","+getMAC()+"@"+String.format("%.2f", relative_progress);
+                                String result = String.format("%.2f", total_progress)+text_data.substring(index)+data;
+                                fos = new FileOutputStream(myExternalFile);
+                                fos.write(result.getBytes());
 
                             } catch (FileNotFoundException e) {
                                 e.printStackTrace();
@@ -202,7 +227,9 @@ public class algorithm extends AppCompatActivity {
                         }
 
                     }
-
+                    regional_progress.setText(Float.toString(relative_progress));
+                    total_progress_tv.setText(Float.toString(total_progress));
+                    updateprogressBar(total_progress);
                 }
             }
         });
@@ -308,7 +335,7 @@ public class algorithm extends AppCompatActivity {
             fileuri=data.getData();
             // csvText.setText(readCSVFile(getFilePathFromUri(fileuri)));
             path= getFilePathFromUri(fileuri);
-            csvText.setText(path);
+            //csvText.setText(path);
         }
     }
 
@@ -372,6 +399,13 @@ public class algorithm extends AppCompatActivity {
         progress_bar.setProgress((int)progress);
         progress_text.setText(String.format("%.2f", progress)+" %");
 
+    }
+    public String getMAC()
+    {
+        WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        WifiInfo wInfo = wifiManager.getConnectionInfo();
+        String macAddress = wInfo.getMacAddress();
+        return macAddress;
     }
 
 }
