@@ -58,7 +58,7 @@ public class Monitor_Progress extends AppCompatActivity implements AdapterView.O
 
             if (!myExternalFile.exists()) {
 
-                Toast.makeText(Monitor_Progress.this, "File not Available", Toast.LENGTH_LONG).show();
+                Toast.makeText(Monitor_Progress.this, "'progress' file is not Available", Toast.LENGTH_LONG).show();
             }
 
             else {

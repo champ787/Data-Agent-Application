@@ -114,12 +114,17 @@ class FileSenderViewModel(context: Application) :
             val documentFile = DocumentFile.fromSingleUri(context, fileUri)
                 ?: throw NullPointerException("fileName for given input Uri is null")
             val fileName = documentFile.name
+//            val outputFile = File(
+//                context.cacheDir, Random.nextInt(
+//                    1,
+//                    200
+//                ).toString() + "_" + fileName
+//            )
+            // addition start
             val outputFile = File(
-                context.cacheDir, Random.nextInt(
-                    1,
-                    200
-                ).toString() + "_" + fileName
+                context.cacheDir,  fileName
             )
+            // addition end
             if (outputFile.exists()) {
                 outputFile.delete()
             }
