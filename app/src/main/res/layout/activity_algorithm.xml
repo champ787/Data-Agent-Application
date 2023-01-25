@@ -44,8 +44,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="369dp"
+        android:layout_marginBottom="330dp"
         android:text="Select" />
+
 
     <Button
         android:id="@+id/calculate"
@@ -54,7 +55,7 @@
         android:layout_below="@+id/csv"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="86dp"
-        android:layout_marginBottom="200dp"
+        android:layout_marginBottom="199dp"
         android:text="Calculate"
         tools:ignore="UnknownId" />
 
@@ -63,11 +64,10 @@
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="670dp"
+        android:layout_marginBottom="671dp"
         android:text="*First select csv file then calculate the progress"
         android:textColor="@color/white"
         android:textSize="17dp" />
-
 
     <TextView
         android:id="@+id/textView"
@@ -75,8 +75,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="22dp"
-        android:layout_marginBottom="325dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="295dp"
         android:text="*Fill your proportion in decimal in overall progress"
 
         android:textColor="@color/white"
@@ -89,8 +89,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="119dp"
-        android:layout_marginBottom="268dp"
+        android:layout_marginEnd="118dp"
+        android:layout_marginBottom="259dp"
         android:background="@color/white"
         android:ems="10"
         android:inputType="numberDecimal"
@@ -118,10 +118,11 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="13dp"
-        android:layout_marginEnd="198dp"
-        android:layout_marginBottom="588dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginEnd="197dp"
+        android:layout_marginBottom="582dp"
         android:text="View Database" />
+
 
     <Button
         android:id="@+id/btnDroptable"
@@ -129,8 +130,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="12dp"
-        android:layout_marginBottom="588dp"
+        android:layout_marginEnd="11dp"
+        android:layout_marginBottom="582dp"
         android:text="Drop Table" />
 
     <TextView
@@ -139,12 +140,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="641dp"
+        android:layout_marginEnd="9dp"
+        android:layout_marginBottom="642dp"
         android:fontFamily="sans-serif-condensed"
         android:text="Database Operations"
         android:textColor="@color/white" />
-
 
     <TextView
         android:id="@+id/regionprogress"
@@ -202,8 +202,8 @@
         android:layout_height="182dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="111dp"
-        android:layout_marginBottom="413dp"
+        android:layout_marginEnd="110dp"
+        android:layout_marginBottom="390dp"
         android:indeterminateOnly="false"
         android:progressDrawable="@drawable/circle"
         tools:progress="0" />
@@ -247,6 +247,7 @@
         android:text=""
         android:textColor="@color/white"
         android:textSize="20dp" />
+
 
 
 </RelativeLayout>

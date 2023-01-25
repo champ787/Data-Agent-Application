@@ -6,6 +6,7 @@
     android:orientation="vertical"
     android:background="@drawable/backimage"
     >
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,13 +16,39 @@
         android:textColor="@android:color/white"
         android:textSize="25sp" />
 
-    <TextView
-        android:layout_width="386dp"
+<!--    <TextView-->
+<!--        android:layout_width="386dp"-->
+<!--        android:layout_height="111dp"-->
+<!--        android:layout_margin="5dp"-->
+<!--        android:text="1. Both the end need to turn on wifi  \n\n2. The file receiving end creates the group first, and the file sending end searches for the device and clicks to connect \n\n 3.After the connection is successful, the file receiving end first starts monitoring, and then the file sending end selects the file to send."-->
+<!--        android:textColor="@color/white"-->
+<!--        android:textSize="16sp" />-->
+
+
+    <ScrollView
+        android:layout_width="381dp"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:text="1. Both the end need to turn on wifi  \n\n2. The file receiving end creates the group first, and the file sending end searches for the device and clicks to connect \n\n 3.After the connection is successful, the file receiving end first starts monitoring, and then the file sending end selects the file to send."
-        android:textColor="@color/white"
-        android:textSize="16sp" />
+        android:scrollbarSize="10dp"
+
+        >
+
+        <TextView
+            android:layout_width="380dp"
+            android:layout_height="110dp"
+            android:layout_margin="1dp"
+            android:background="@color/white"
+
+            android:text="1. Both the end need to turn on wifi.  \n\n2. The file receiving end creates the group first, and the file sending end searches for the device and clicks to connect. \n\n 3.After the connection is successful, the file receiving end first starts monitoring, and then the file sending end selects the file to send."
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+        <!--        <LinearLayout-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:orientation="vertical" -->
+        <!--            />-->
+
+
+    </ScrollView>
 
     <TextView
         android:layout_width="389dp"
@@ -31,6 +58,7 @@
         android:text=" *Turn on Wi-Fi Direct and grant GPS permission"
         android:textColor="@android:color/white"
         android:textSize="14sp" />
+
     <Button
         android:id="@+id/btnCheckPermission"
         android:layout_width="match_parent"
@@ -38,25 +66,62 @@
         android:layout_margin="12dp"
         android:text="Device permissions" />
 
-    <Button
-        android:id="@+id/btnSender"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="384dp"
         android:layout_height="wrap_content"
-        android:layout_margin="12dp"
-        android:text="Send file/ Calculate progress" />
+        android:text="Client Actions"
+        android:textColor="@color/white" />
 
-    <Button
-        android:id="@+id/btnReceiver"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="12dp"
-        android:text="create group" />
 
-    <Button
-        android:id="@+id/btnProgress"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="385dp"
         android:layout_height="wrap_content"
-        android:layout_margin="12dp"
-        android:text="View Progress" />
+        android:background="@color/white"
+        android:orientation="vertical">
+
+
+
+        <Button
+            android:id="@+id/btnSender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp"
+            android:text="Send file/ Calculate progress" />
+
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="384dp"
+        android:layout_height="wrap_content"
+        android:text="Co/Supervisor Actions"
+        android:textColor="@color/white" />
+
+    <LinearLayout
+        android:layout_width="385dp"
+        android:layout_height="wrap_content"
+        android:background="@color/teal_200"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btnReceiver"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp"
+            android:text="create group" />
+
+        <Button
+            android:id="@+id/btnProgress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp"
+            android:text="View Progress" />
+
+    </LinearLayout>
+
+
+
 
 </LinearLayout>

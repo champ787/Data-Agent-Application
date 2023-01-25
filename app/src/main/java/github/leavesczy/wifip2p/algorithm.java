@@ -10,15 +10,18 @@ import androidx.core.app.ActivityCompat;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.Settings;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -36,6 +39,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.nio.channels.Channel;
 import java.util.Scanner;
 
 public class algorithm extends AppCompatActivity {
@@ -78,6 +84,7 @@ public class algorithm extends AppCompatActivity {
         total_progress_tv=findViewById(R.id.totalprogress);
         progress_bar=findViewById(R.id.progressBar);
         progress_text=findViewById(R.id.progresstext);
+
 
         if (!Python.isStarted())
             Python.start(new AndroidPlatform(this));
@@ -304,6 +311,8 @@ public class algorithm extends AppCompatActivity {
                 display("All Stored Data", buffer.toString());
             }
         });
+
+
     }
 
     private boolean ExternalStorageAvailable() {
@@ -409,5 +418,7 @@ public class algorithm extends AppCompatActivity {
 
         return macAddress;
     }
+
+
 
 }

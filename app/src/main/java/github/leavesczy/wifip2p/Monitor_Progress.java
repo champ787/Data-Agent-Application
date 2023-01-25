@@ -3,7 +3,10 @@ package github.leavesczy.wifip2p;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -29,9 +32,15 @@ public class Monitor_Progress extends AppCompatActivity implements AdapterView.O
 
     private Spinner spinner;
 
+    private static final int READ_REQUEST_CODE = 42;
     public String filename="progress.txt";
     private ProgressBar progress_bar;
+    private Button btnMergeprogress;
     private TextView tvProgress;
+    private float total_progress=0;
+    private float relative_progress= 0;
+    public int index=0;
+
     ArrayList<String> device_address=new ArrayList<>();
     ArrayList<String> device_progress=new ArrayList<>();
 
@@ -47,9 +56,22 @@ public class Monitor_Progress extends AppCompatActivity implements AdapterView.O
 
 
         spinner=findViewById(R.id.spinner);
-
         progress_bar=findViewById(R.id.progressBar2);
         tvProgress=findViewById(R.id.tvProgress);
+
+        btnMergeprogress=findViewById(R.id.btnMergeprogress);
+        btnMergeprogress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+                intent.setType("*/*");
+                startActivityForResult(intent, READ_REQUEST_CODE);
+            }
+        });
+
+
 
 
         if (ExternalStorageAvailable()) {
@@ -193,10 +215,7 @@ public class Monitor_Progress extends AppCompatActivity implements AdapterView.O
         }
         return false;
     }
-    private void getdata() {
 
-
-        }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -214,6 +233,181 @@ public class Monitor_Progress extends AppCompatActivity implements AdapterView.O
     {
         progress_bar.setProgress((int)progress);
         tvProgress.setText(String.format("%.2f", progress)+" %");
+
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            if (data.getClipData() != null) {
+                // handle multiple files
+                int count = data.getClipData().getItemCount();
+                String path=null;
+                for (int i = 0; i < count; i++) {
+                    Uri fileUri = data.getClipData().getItemAt(i).getUri();
+
+                    // do something with the file URI
+                    algorithm al=new algorithm();
+                    path=al.getFilePathFromUri(fileUri);
+                    merge(path);
+
+
+
+                }
+            } else if (data.getData() != null) {
+                // handle single file
+                Uri fileUri = data.getData();
+                // do something with the file URI
+            }
+        }
+    }
+
+    private void merge(String path) {
+
+        if(ExternalStorageAvailable()) {
+                // File myExternalFile = new File(getExternalFilesDir(filepath), filename);
+                File mainprogressFile = new File("/storage/emulated/0/Download", filename);
+
+
+                if (!mainprogressFile.exists()) {
+                        FileOutputStream fos = null;
+                        FileReader fr=null;
+                        File clientfile=new File(path);
+                        StringBuilder stringbuilder = new StringBuilder();
+
+                        try{
+                            fos = new FileOutputStream(mainprogressFile);
+
+                            fr=new FileReader(clientfile);
+
+                            BufferedReader br=new BufferedReader(fr);
+                            String line=br.readLine();
+
+                            while(line!=null)
+                            {
+                                stringbuilder.append(line);
+                                line=br.readLine();
+                            }
+
+                            String text_data_client=stringbuilder.toString();
+
+                            char[] prgress=text_data_client.toCharArray();
+                            String extracted_total_progress="";
+                            while(prgress[index]!=',') {
+
+                                extracted_total_progress+=prgress[index];
+                                index++;
+                            }
+                            float old_progress=Float.valueOf(extracted_total_progress);
+                            total_progress+=old_progress;
+//                            String data=","+getMAC()+"@"+String.format("%.2f", relative_progress);
+//                            String result = String.format("%.2f", total_progress)+text_data.substring(index)+data;
+//                            fos = new FileOutputStream(mainprogressFile);
+//                            fos.write(result.getBytes());
+                            relative_progress=relative_progress(text_data_client);
+                            String data1=String.format("%.2f", total_progress)+","+getMAC()+"@"+String.format("%.2f", relative_progress);
+                            fos.write(data1.getBytes());
+
+
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+
+
+                    Toast.makeText(Monitor_Progress.this, "Main Progress File Created", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    FileReader fr=null;
+                    File mainprogressfile=new File(getExternalFilesDir("/storage/emulated/0/Download"),"progress.txt");
+                    StringBuilder stringbuilder =new StringBuilder();
+                    FileOutputStream fos = null;
+
+                    FileReader fr_client=null;
+                    File clientfile=new File(path);
+                    StringBuilder stringbuilder_client =new StringBuilder();
+                    FileOutputStream fos_client = null;
+
+                    try{
+                        fr=new FileReader(mainprogressFile);
+                        BufferedReader br=new BufferedReader(fr);
+                        String line=br.readLine();
+
+                        //file reader for main progressfile
+                        while(line!=null)
+                        {
+                            stringbuilder.append(line);
+                            line=br.readLine();
+                        }
+                        String text_data=stringbuilder.toString();
+
+
+                        //file reader for client file
+                        fr_client=new FileReader(clientfile);
+                        BufferedReader br_client=new BufferedReader(fr_client);
+                        String line_client=br_client.readLine();
+                        while(line_client!=null)
+                        {
+                            stringbuilder_client.append(line_client);
+                            line_client=br_client.readLine();
+                        }
+                        String text_data_client=stringbuilder_client.toString();
+
+                        //Reading the total progress of both the files and then adding them in to a file and storing in th e total progress file
+
+                        float old_progress=total_progress(text_data,index);
+
+                        total_progress=total_progress(text_data_client,0);
+
+                        total_progress+=old_progress;
+
+                        relative_progress=relative_progress(text_data_client);
+
+                        String data=","+getMAC()+"@"+String.format("%.2f", relative_progress);
+
+                        String result = String.format("%.2f", total_progress)+text_data.substring(index)+data;
+                        fos = new FileOutputStream(mainprogressFile);
+                        fos.write(result.getBytes());
+
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+
+                    Toast.makeText(Monitor_Progress.this, "File Updated", Toast.LENGTH_LONG).show();
+                }
+
+
+        }
+        updateprogressBar(total_progress);
+        index=0;
+    }
+
+
+    private Float total_progress(String str,int index1)
+    {
+        char[] prgress=str.toCharArray();
+
+        String extracted_total_progress="";
+
+        while(prgress[index1]!=',') {
+
+            extracted_total_progress+=prgress[index1];
+            index1++;
+        }
+        index=index1;
+     return Float.valueOf(extracted_total_progress);
+    }
+
+    private Float relative_progress(String str)
+    {
+       int l_index=str.indexOf('@');
+
+       return Float.valueOf(str.substring(l_index+1));
 
     }
 }
