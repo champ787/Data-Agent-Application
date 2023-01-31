@@ -101,7 +101,7 @@
 
     <LinearLayout
         android:layout_width="385dp"
-        android:layout_height="wrap_content"
+        android:layout_height="257dp"
         android:background="@color/teal_200"
         android:orientation="vertical">
 
@@ -109,19 +109,31 @@
             android:id="@+id/btnReceiver"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="12dp"
+            android:layout_margin="6dp"
             android:text="create group" />
 
         <Button
             android:id="@+id/btnProgress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="12dp"
+            android:layout_margin="6dp"
             android:text="View Progress" />
 
+        <Button
+            android:id="@+id/btnSendProgress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:text="Send Progress" />
+
+        <Button
+            android:id="@+id/btnReceiveProgress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:text="receive Progress" />
+
     </LinearLayout>
-
-
 
 
 </LinearLayout>

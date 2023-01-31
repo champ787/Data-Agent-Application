@@ -10,6 +10,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import github.leavesczy.wifip2p.receiver.FileReceiverActivity
 import github.leavesczy.wifip2p.sender.FileSenderActivity
+import github.leavesczy.wifip2p.wifitransfer.FileReceiverActivityWifi
+import github.leavesczy.wifip2p.wifitransfer.FileSenderActivityWifi
 
 /**
  * @Author: CZY
@@ -55,7 +57,6 @@ class MainActivity : BaseActivity() {
 
 
 
-
         findViewById<View>(R.id.btnCheckPermission).setOnClickListener {
             requestPermissionLaunch.launch(requestedPermissions)
         }
@@ -81,6 +82,12 @@ class MainActivity : BaseActivity() {
             }
         }
 
+        findViewById<View>(R.id.btnSendProgress).setOnClickListener {
+            startActivity(FileSenderActivityWifi::class.java)
+        }
+        findViewById<View>(R.id.btnReceiveProgress).setOnClickListener {
+            startActivity(FileReceiverActivityWifi::class.java)
+        }
 
     }
 
