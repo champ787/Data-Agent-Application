@@ -85,6 +85,8 @@ class MainActivity : BaseActivity() {
         findViewById<View>(R.id.btnSendProgress).setOnClickListener {
             startActivity(FileSenderActivityWifi::class.java)
         }
+
+
         findViewById<View>(R.id.btnReceiveProgress).setOnClickListener {
             startActivity(FileReceiverActivityWifi::class.java)
         }
