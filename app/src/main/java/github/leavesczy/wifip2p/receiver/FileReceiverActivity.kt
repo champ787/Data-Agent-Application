@@ -47,6 +47,10 @@ class FileReceiverActivity : BaseActivity() {
         findViewById<Button>(R.id.btnStartReceive)
     }
 
+    private val btnStartUpload by lazy {
+        findViewById<Button>(R.id.btnStartUpload)
+    }
+
     private val fileReceiverViewModel by viewModels<FileReceiverViewModel>()
 
     private lateinit var wifiP2pManager: WifiP2pManager
@@ -56,6 +60,8 @@ class FileReceiverActivity : BaseActivity() {
     private var connectionInfoAvailable = false
 
     private var broadcastReceiver: BroadcastReceiver? = null
+
+    private lateinit var handler : Handler
 
     private val directActionListener = object : DirectActionListener {
         override fun wifiP2pEnabled(enabled: Boolean) {
@@ -110,6 +116,9 @@ class FileReceiverActivity : BaseActivity() {
         }
         btnStartReceive.setOnClickListener {
             fileReceiverViewModel.startListener()
+        }
+        btnStartUpload.setOnClickListener {
+            repeatingTask()
         }
     }
 
@@ -225,6 +234,18 @@ class FileReceiverActivity : BaseActivity() {
                 }
             }
         }
+    }
+
+    private val runnable: Runnable = object : Runnable {
+        override fun run() {
+            /*set of codes for repeated work */
+            createGroup()
+            handler.postDelayed(this, 10*60*1000) // reschedule the handler
+        }
+    }
+
+    fun repeatingTask() {
+        handler.postDelayed(runnable, 1000)
     }
 
     private fun log(log: String) {
