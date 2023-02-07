@@ -31,29 +31,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WifiP2P"
         tools:targetApi="33">
-        <activity
-            android:name=".BaseActivityWifi"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-<!--        <activity-->
-<!--            android:name=".wifitransfer.FileReceiverActivityWifi"-->
-<!--            android:exported="false">-->
-<!--            <meta-data-->
-<!--                android:name="android.app.lib_name"-->
-<!--                android:value="" />-->
-<!--        </activity>-->
-<!--        <activity-->
-<!--            android:name=".wifitransfer.FileSenderActivityWifi"-->
-<!--            android:exported="false"-->
 
-<!--            >-->
-<!--            <meta-data-->
-<!--                android:name="android.app.lib_name"-->
-<!--                android:value="" />-->
-<!--        </activity>-->
         <activity
             android:name=".Monitor_Progress"
             android:exported="false">
@@ -92,6 +70,29 @@
             android:exported="false"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".BaseActivityWifi"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".wifitransfer.FileReceiverActivityWifi"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".wifitransfer.FileSenderActivityWifi"
+            android:exported="false"
+
+            >
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
     </application>
 
 </manifest>

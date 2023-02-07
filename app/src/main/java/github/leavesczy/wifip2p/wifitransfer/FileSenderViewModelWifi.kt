@@ -60,7 +60,7 @@ class FileSenderViewModelWifi(context: Application) :
 
                         _log.emit(value = "Socket Connect，Give up if the connection is not successful within 60 seconds")
 
-                        socket.connect(InetSocketAddress(ipAddress, Constants.PORT), 60000)
+                        socket.connect(InetSocketAddress(ipAddress, Constants.PORT2), 17000)
 
                         _viewState.emit(value = ViewState.Receiving)
                         _log.emit(value = "\n" + "The connection is successful, and the file transfer starts")

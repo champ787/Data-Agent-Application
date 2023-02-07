@@ -6,6 +6,7 @@ import android.net.wifi.p2p.WifiP2pDevice
 import android.net.wifi.p2p.WifiP2pInfo
 import android.net.wifi.p2p.WifiP2pManager
 import android.os.Bundle
+import android.os.Handler
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -21,11 +22,12 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 
-/**
- * @Author: leavesCZY
- * @Desc:
- */
+
 class FileReceiverActivity : BaseActivity() {
+
+    
+    private val handler = Handler()
+    private val interval = 15000 // 15 second
 
     private val ivImage by lazy {
         findViewById<ImageView>(R.id.ivImage)
@@ -52,6 +54,9 @@ class FileReceiverActivity : BaseActivity() {
     private lateinit var wifiP2pManager: WifiP2pManager
 
     private lateinit var wifiP2pChannel: WifiP2pManager.Channel
+
+
+
 
     private var connectionInfoAvailable = false
 
@@ -109,8 +114,9 @@ class FileReceiverActivity : BaseActivity() {
             removeGroup()
         }
         btnStartReceive.setOnClickListener {
-            fileReceiverViewModel.startListener()
+          startRepeatingCall()
         }
+
     }
 
     private fun initDevice() {
@@ -235,5 +241,15 @@ class FileReceiverActivity : BaseActivity() {
     private fun clearLog() {
         tvLog.text = ""
     }
+    private fun startRepeatingCall() {
+        handler.postDelayed(object : Runnable {
+            override fun run() {
+                // Call your function here
+               fileReceiverViewModel.startListener();
+                handler.postDelayed(this, interval.toLong())
+            }
+        }, interval.toLong())
+    }
+
 
 }

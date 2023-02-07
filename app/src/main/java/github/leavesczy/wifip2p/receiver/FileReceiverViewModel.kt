@@ -55,7 +55,7 @@ class FileReceiverViewModel(context: Application) :
                 serverSocket = ServerSocket()
                 serverSocket.bind(InetSocketAddress(Constants.PORT))
                 serverSocket.reuseAddress = true
-                serverSocket.soTimeout = 60000
+                serverSocket.soTimeout = 15000
 
                 log(log = "socket accept，Disconnect if unsuccessful within sixty seconds")
 

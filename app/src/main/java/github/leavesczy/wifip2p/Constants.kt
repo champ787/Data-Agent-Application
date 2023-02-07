@@ -7,5 +7,6 @@ package github.leavesczy.wifip2p
 object Constants {
 
     const val PORT = 1995
+    const val PORT2 = 1234
 
 }

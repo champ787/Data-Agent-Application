@@ -3,25 +3,30 @@ package github.leavesczy.wifip2p;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static android.os.Build.VERSION.SDK_INT;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.ContentUris;
 import android.content.Context;
-import android.content.DialogInterface;
+
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.net.wifi.p2p.WifiP2pManager;
+
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.DocumentsContract;
+import android.provider.MediaStore;
+import android.provider.OpenableColumns;
 import android.provider.Settings;
-import android.text.InputType;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -39,9 +44,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.nio.channels.Channel;
+
 import java.util.Scanner;
 
 public class algorithm extends AppCompatActivity {
@@ -95,7 +98,7 @@ public class algorithm extends AppCompatActivity {
         calculate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Toast.makeText(algorithm.this, "Data Found in ", Toast.LENGTH_LONG).show();
                 PyObject pyobj = py.getModule("algorithm");
                 PyObject obj = pyobj.callAttr("main",path);
                 String c_volume=obj.toString();
@@ -287,8 +290,21 @@ public class algorithm extends AppCompatActivity {
 
 
                 }
-            }
+
+
+
+//                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+//                    intent.setType("*/*");
+//                    intent.addCategory(Intent.CATEGORY_OPENABLE);
+//                    startActivityForResult(Intent.createChooser(intent, "Select a CSV File"),101);
+//
+//                csvText.setText(path);
+
+                }
         });
+
+
+
 
 
         viewdb.setOnClickListener(new View.OnClickListener() {
@@ -343,9 +359,14 @@ public class algorithm extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==101 && data!=null){
             fileuri=data.getData();
-            // csvText.setText(readCSVFile(getFilePathFromUri(fileuri)));
+
+
+
             path= getFilePathFromUri(fileuri);
-            //csvText.setText(path);
+            Toast.makeText(algorithm.this, path , Toast.LENGTH_LONG).show();
+
+
+
         }
     }
 
@@ -358,40 +379,13 @@ public class algorithm extends AppCompatActivity {
         String filePath1[]=filepath.split(":");
         filename1 =filepath.split("/");
         fn=filename1[filename1.length-1];
-        return Environment.getExternalStorageDirectory().getPath()+"/"+filePath1[1];
+        String name=getName(this,uri);
+
+
+        return Environment.getExternalStorageDirectory().getPath()+"/Download"+"/"+name;
     }
 
-    //reading file data
 
-    public String readCSVFile(String path){
-        String filedata = null;
-        File file=new File(path);
-        try {
-
-            Scanner scanner=new Scanner(file);
-            while (scanner.hasNextLine()){
-
-                String line=scanner.nextLine();
-                String [] splited=line.split(",");
-                String row="";
-                for (String s:splited){
-
-                    row=row+s+"  ";
-
-                }
-
-                filedata=filedata+row+"\n";
-
-            }
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            Toast.makeText(algorithm.this,"Error",Toast.LENGTH_SHORT).show();
-        }
-
-        return filedata;
-
-    }
 
     public float relative_progress(float avg_look_back)
     {
@@ -419,6 +413,24 @@ public class algorithm extends AppCompatActivity {
 
         return macAddress;
     }
+    @SuppressLint("Range")
+    public static String getName(Context context, Uri uri) {
+        String fileName = null;
+        Cursor cursor = context.getContentResolver()
+                .query(uri, null, null, null, null, null);
+        try {
+            if (cursor != null && cursor.moveToFirst()) {
+                // get file name
+                fileName = cursor.getString(
+                        cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+            }
+        } finally {
+            cursor.close();
+        }
+        return fileName;
+    }
+
+
 
 
 

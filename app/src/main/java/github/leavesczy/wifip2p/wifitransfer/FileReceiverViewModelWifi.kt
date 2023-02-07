@@ -49,12 +49,12 @@ AndroidViewModel(context){
                         "turn on Socket")
 
                 serverSocket = ServerSocket()
-                serverSocket.bind(InetSocketAddress(Constants.PORT))
+                serverSocket.bind(InetSocketAddress(Constants.PORT2))
                 serverSocket.reuseAddress = true
-                serverSocket.soTimeout = 60000
+                serverSocket.soTimeout = 15000
 
                 _log.emit(value = "socket accept，\n" +
-                        "Disconnect if unsuccessful within thirty seconds")
+                        "Disconnect if unsuccessful within fifteen seconds")
 
                 val client = serverSocket.accept()
 

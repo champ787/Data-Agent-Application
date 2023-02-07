@@ -67,9 +67,9 @@ class FileSenderViewModel(context: Application) :
                     socket = Socket()
                     socket.bind(null)
 
-                    _log.emit(value = "socket connect，Give up if the connection is not successful within 30 seconds")
+                    _log.emit(value = "socket connect，Give up if the connection is not successful within 17 seconds")
 
-                    socket.connect(InetSocketAddress(ipAddress, Constants.PORT), 30000)
+                    socket.connect(InetSocketAddress(ipAddress, Constants.PORT), 17000)
 
                     _viewState.emit(value = ViewState.Receiving)
                     _log.emit(value =

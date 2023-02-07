@@ -2,6 +2,7 @@ package github.leavesczy.wifip2p.wifitransfer
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -14,6 +15,8 @@ import github.leavesczy.wifip2p.modelwifi.ViewState
 import kotlinx.coroutines.launch
 
 class FileReceiverActivityWifi : BaseActivityWifi() {
+    private val handler = Handler()
+    private val interval = 15000 // 15 second
     private val fileReceiverViewModel by viewModels<FileReceiverViewModelWifi>()
 
     private val tvState by lazy {
@@ -34,9 +37,9 @@ class FileReceiverActivityWifi : BaseActivityWifi() {
         supportActionBar?.title = "\n" +
                 "File Receiver"
         btnStartReceive.setOnClickListener {
-            tvState.text = ""
+//            tvState.text = ""
 //            ivImage.load(data = null)
-            fileReceiverViewModel.startListener()
+            startRepeatingCall()
         }
         initEvent()
 
@@ -76,5 +79,15 @@ class FileReceiverActivityWifi : BaseActivityWifi() {
                 tvState.append("\n\n")
             }
         }
+
+    }
+    private fun startRepeatingCall() {
+        handler.postDelayed(object : Runnable {
+            override fun run() {
+                // Call your function here
+                fileReceiverViewModel.startListener()
+                handler.postDelayed(this, interval.toLong())
+            }
+        }, interval.toLong())
     }
  }

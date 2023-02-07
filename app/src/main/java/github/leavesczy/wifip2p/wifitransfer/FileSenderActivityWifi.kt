@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.wifi.WifiManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.widget.Button
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
@@ -16,6 +17,8 @@ import kotlinx.coroutines.launch
 
 
 class FileSenderActivityWifi : BaseActivityWifi() {
+
+
 
     private val fileSenderViewModel by viewModels<FileSenderViewModelWifi>()
 
@@ -54,30 +57,30 @@ class FileSenderActivityWifi : BaseActivityWifi() {
     }
     private fun initEvent() {
         lifecycleScope.launch {
-            fileSenderViewModel.viewState.collect {
-                when (it) {
-                    ViewState.Idle -> {
-                        tvState.text = ""
-                        dismissLoadingDialog()
-                    }
+                fileSenderViewModel.viewState.collect {
+                    when (it) {
+                        ViewState.Idle -> {
+                            tvState.text = ""
+                            dismissLoadingDialog()
+                        }
 
-                    ViewState.Connecting -> {
-                        showLoadingDialog()
-                    }
+                        ViewState.Connecting -> {
+                            showLoadingDialog()
+                        }
 
-                    is ViewState.Receiving -> {
-                        showLoadingDialog()
-                    }
+                        is ViewState.Receiving -> {
+                            showLoadingDialog()
+                        }
 
-                    is ViewState.Success -> {
-                        dismissLoadingDialog()
-                    }
+                        is ViewState.Success -> {
+                            dismissLoadingDialog()
+                        }
 
-                    is ViewState.Failed -> {
-                        dismissLoadingDialog()
+                        is ViewState.Failed -> {
+                            dismissLoadingDialog()
+                        }
                     }
                 }
-            }
         }
         lifecycleScope.launch {
             fileSenderViewModel.log.collect {
