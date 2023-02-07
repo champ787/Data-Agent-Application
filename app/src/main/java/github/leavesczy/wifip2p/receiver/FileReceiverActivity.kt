@@ -6,19 +6,19 @@ import android.net.wifi.p2p.WifiP2pDevice
 import android.net.wifi.p2p.WifiP2pInfo
 import android.net.wifi.p2p.WifiP2pManager
 import android.os.Bundle
+import android.os.Handler
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
-import coil.load
 import github.leavesczy.wifip2p.BaseActivity
 import github.leavesczy.wifip2p.DirectActionListener
 import github.leavesczy.wifip2p.DirectBroadcastReceiver
 import github.leavesczy.wifip2p.R
 import github.leavesczy.wifip2p.models.ViewState
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.*
+import java.lang.Runnable
 import kotlin.coroutines.resume
 
 /**
@@ -50,6 +50,8 @@ class FileReceiverActivity : BaseActivity() {
     private val btnStartUpload by lazy {
         findViewById<Button>(R.id.btnStartUpload)
     }
+
+    private val TAG_SYNC_DATA = "SyncData Activity"
 
     private val fileReceiverViewModel by viewModels<FileReceiverViewModel>()
 
@@ -100,6 +102,8 @@ class FileReceiverActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        handler = Handler()
+
         setContentView(R.layout.activity_file_receiver)
         initView()
         initDevice()
@@ -118,7 +122,7 @@ class FileReceiverActivity : BaseActivity() {
             fileReceiverViewModel.startListener()
         }
         btnStartUpload.setOnClickListener {
-            repeatingTask()
+            enqueueRunnable()
         }
     }
 
@@ -183,7 +187,7 @@ class FileReceiverActivity : BaseActivity() {
     }
 
     @SuppressLint("MissingPermission")
-    private fun createGroup() {
+    private fun createGroup(){
         lifecycleScope.launch {
             removeGroupIfNeed()
             wifiP2pManager.createGroup(wifiP2pChannel, object : WifiP2pManager.ActionListener {
@@ -238,14 +242,19 @@ class FileReceiverActivity : BaseActivity() {
 
     private val runnable: Runnable = object : Runnable {
         override fun run() {
-            /*set of codes for repeated work */
-            createGroup()
+            /* my set of codes for repeated work */
+            cronTask()
             handler.postDelayed(this, 10*60*1000) // reschedule the handler
         }
     }
 
-    fun repeatingTask() {
+    private fun enqueueRunnable() {
         handler.postDelayed(runnable, 1000)
+    }
+
+    private fun cronTask() {
+        createGroup()
+        fileReceiverViewModel.startListener()
     }
 
     private fun log(log: String) {

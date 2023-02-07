@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:keepScreenOn="true"
     android:background="@drawable/backimage">
 
     <LinearLayout
@@ -38,6 +39,13 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:text="Active monitoring" />
+
+        <Button
+            android:id="@+id/btnStartUpload"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="Upload" />
 
         <ImageView
             android:id="@+id/ivImage"
