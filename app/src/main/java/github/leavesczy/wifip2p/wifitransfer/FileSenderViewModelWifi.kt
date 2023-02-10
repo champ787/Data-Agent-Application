@@ -24,6 +24,8 @@ import kotlin.random.Random
 class FileSenderViewModelWifi(context: Application) :
     AndroidViewModel(context) {
 
+        public var filesent = false
+
         private val _viewState = MutableSharedFlow<ViewState>()
 
         val viewState: SharedFlow<ViewState> = _viewState
@@ -58,9 +60,9 @@ class FileSenderViewModelWifi(context: Application) :
                         socket = Socket()
                         socket.bind(null)
 
-                        _log.emit(value = "Socket Connect，Give up if the connection is not successful within 60 seconds")
+                        _log.emit(value = "Socket Connect，Give up if the connection is not successful within 15 seconds")
 
-                        socket.connect(InetSocketAddress(ipAddress, Constants.PORT2), 17000)
+                        socket.connect(InetSocketAddress(ipAddress, Constants.PORT2), 5000)
 
                         _viewState.emit(value = ViewState.Receiving)
                         _log.emit(value = "\n" + "The connection is successful, and the file transfer starts")
@@ -82,6 +84,8 @@ class FileSenderViewModelWifi(context: Application) :
                                     "Transferring files，length : $length")
                         }
                         _log.emit(value = "File sent successfully")
+                        //break loop if file is sent
+                        filesent=true
                         _viewState.emit(value = ViewState.Success(file = cacheFile))
                     } catch (e: Throwable) {
                         e.printStackTrace()

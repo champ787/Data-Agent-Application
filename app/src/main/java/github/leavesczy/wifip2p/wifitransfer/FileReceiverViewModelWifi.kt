@@ -1,7 +1,12 @@
 package github.leavesczy.wifip2p.wifitransfer
 
+import android.app.AlertDialog
 import android.app.Application
 import android.content.Context
+import android.os.CountDownTimer
+import android.os.Handler
+import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import github.leavesczy.wifip2p.Constants
@@ -27,6 +32,10 @@ AndroidViewModel(context){
     val viewState: SharedFlow<ViewState> = _viewState
 
     private val _log = MutableSharedFlow<String>()
+    val fileReceiverActivityWifi=FileReceiverActivityWifi()
+
+
+
 
     val log: SharedFlow<String> = _log
 
@@ -43,6 +52,7 @@ AndroidViewModel(context){
             var clientInputStream: InputStream? = null
             var objectInputStream: ObjectInputStream? = null
             var fileOutputStream: FileOutputStream? = null
+
             try {
                 _viewState.emit(value = ViewState.Connecting)
                 _log.emit(value = "\n" +
@@ -84,9 +94,16 @@ AndroidViewModel(context){
                 }
                 _viewState.emit(value = ViewState.Success(file = file))
                 _log.emit(value = "File received successfully")
+
+                fileReceiverActivityWifi.showTimerBasedToast(5000,15000,"null")
+
+
+
+
             } catch (e: Throwable) {
                 _log.emit(value = "abnormal: " + e.message)
                 _viewState.emit(value = ViewState.Failed(throwable = e))
+
             } finally {
                 serverSocket?.close()
                 clientInputStream?.close()
@@ -104,4 +121,7 @@ AndroidViewModel(context){
         cacheDir.mkdirs()
         return cacheDir
     }
+
+
+
 }

@@ -33,6 +33,8 @@ import kotlin.random.Random
 class FileSenderViewModel(context: Application) :
     AndroidViewModel(context) {
 
+    public var filesent = false
+
     private val _viewState = MutableSharedFlow<ViewState>()
 
     val viewState: SharedFlow<ViewState> = _viewState
@@ -91,7 +93,10 @@ class FileSenderViewModel(context: Application) :
                         _log.emit(value = "transferring files，length : $length")
                     }
                     _log.emit(value = "File sent successfully")
+                    //File sending stop on successful
+                     filesent=true
                     _viewState.emit(value = ViewState.Success(file = cacheFile))
+
                 } catch (e: Throwable) {
                     e.printStackTrace()
                     _log.emit(value = "abnormal: " + e.message)
@@ -108,6 +113,9 @@ class FileSenderViewModel(context: Application) :
             job = null
         }
     }
+
+
+
 
     private suspend fun saveFileToCacheDir(context: Context, fileUri: Uri): File {
         return withContext(context = Dispatchers.IO) {

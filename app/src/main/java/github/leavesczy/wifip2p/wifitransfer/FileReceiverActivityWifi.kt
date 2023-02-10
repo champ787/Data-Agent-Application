@@ -1,11 +1,14 @@
 package github.leavesczy.wifip2p.wifitransfer
 
+import android.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.os.Handler
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import coil.load
@@ -39,6 +42,8 @@ class FileReceiverActivityWifi : BaseActivityWifi() {
         btnStartReceive.setOnClickListener {
 //            tvState.text = ""
 //            ivImage.load(data = null)
+
+                       showTimerBasedToast(5000,30000,"null")
             startRepeatingCall()
         }
         initEvent()
@@ -90,4 +95,20 @@ class FileReceiverActivityWifi : BaseActivityWifi() {
             }
         }, interval.toLong())
     }
- }
+
+
+//   public fun showTimerBasedToast(time: Long,ipaddress:String) {
+//       val handler = Handler()
+//         handler.postDelayed({
+//         Toast.makeText(this, "Alert: Switch on HotSpot for: "+ipaddress, Toast.LENGTH_LONG).show()
+//           }, time)
+//      }
+
+
+     fun showTimerBasedToast(time: Long, delay: Long,ipaddress:String) {
+         val handler = Handler()
+         handler.postDelayed({
+             Toast.makeText(this, "Alert: Turm on device hotspot: "+ipaddress, Toast.LENGTH_SHORT).show()
+         }, delay + time)}
+
+     }

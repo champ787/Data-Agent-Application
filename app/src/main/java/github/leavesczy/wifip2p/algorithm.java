@@ -98,7 +98,7 @@ public class algorithm extends AppCompatActivity {
         calculate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(algorithm.this, "Data Found in ", Toast.LENGTH_LONG).show();
+
                 PyObject pyobj = py.getModule("algorithm");
                 PyObject obj = pyobj.callAttr("main",path);
                 String c_volume=obj.toString();
@@ -158,7 +158,7 @@ public class algorithm extends AppCompatActivity {
 
                 if(insertion==true)
                 {
-                    Toast.makeText(algorithm.this,"Data Successfully Inserted",Toast.LENGTH_LONG).show();
+                    Toast.makeText(algorithm.this,"Data Successfully Inserted in to database ",Toast.LENGTH_LONG).show();
                 }
                 else
                 {

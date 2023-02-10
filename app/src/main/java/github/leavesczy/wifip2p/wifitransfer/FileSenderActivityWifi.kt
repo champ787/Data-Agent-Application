@@ -1,24 +1,31 @@
 package github.leavesczy.wifip2p.wifitransfer
 
+import android.app.AlertDialog
 import android.content.Context
+import android.net.Uri
 import android.net.wifi.WifiManager
-import androidx.appcompat.app.AppCompatActivity
+
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.os.Handler
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import github.leavesczy.wifip2p.BaseActivityWifi
 import github.leavesczy.wifip2p.R
 import github.leavesczy.wifip2p.modelwifi.ViewState
+
 import kotlinx.coroutines.launch
+
 
 
 class FileSenderActivityWifi : BaseActivityWifi() {
 
-
+    private val handler = Handler()
+    private val interval = 5000 // 5 second
 
     private val fileSenderViewModel by viewModels<FileSenderViewModelWifi>()
 
@@ -26,12 +33,14 @@ class FileSenderActivityWifi : BaseActivityWifi() {
         ActivityResultContracts.GetContent()
     ) { imageUri ->
         if (imageUri != null) {
-            fileSenderViewModel.send(
+            startRepeatingCall(
                 ipAddress = getHotspotIpAddress(
                     context = applicationContext
                 ),
                 fileUri = imageUri
             )
+
+
         }
     }
 
@@ -43,6 +52,8 @@ class FileSenderActivityWifi : BaseActivityWifi() {
         findViewById<TextView>(R.id.tvState)
     }
 
+    private val fileSenderViewModelWifi by viewModels<FileSenderViewModelWifi>()
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,6 +62,7 @@ class FileSenderActivityWifi : BaseActivityWifi() {
         supportActionBar?.title = "\n" +
                 "File Sender"
         btnChooseFile.setOnClickListener {
+            fileSenderViewModelWifi.filesent=false;
             getContentLaunch.launch("*/*")
         }
         initEvent()
@@ -104,6 +116,31 @@ class FileSenderActivityWifi : BaseActivityWifi() {
             }
         }
         return ""
+    }
+    private fun startRepeatingCall(ipAddress: String, fileUri: Uri) {
+        handler.postDelayed(object : Runnable {
+            override fun run() {
+                // Call your function here
+                if(fileSenderViewModelWifi.filesent!=true) {
+                fileSenderViewModelWifi.send(ipAddress = ipAddress, fileUri = fileUri)
+                    handler.postDelayed(this, interval.toLong())
+                }
+                else
+                {
+                    showTimerBasedToast(5000,15000,ipAddress)
+
+                }
+
+
+            }
+        }, interval.toLong())
+    }
+
+    fun showTimerBasedToast(time: Long, delay: Long,ipaddress:String) {
+        val handler = Handler()
+        handler.postDelayed({
+            Toast.makeText(this, "Alert: Connect to the Hotspot of: "+ipaddress, Toast.LENGTH_SHORT).show()
+        }, delay + time)
     }
 
 }

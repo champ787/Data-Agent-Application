@@ -3,12 +3,14 @@ package github.leavesczy.wifip2p.sender
 import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Intent
+import android.net.Uri
 import android.net.wifi.WpsInfo
 import android.net.wifi.p2p.WifiP2pConfig
 import android.net.wifi.p2p.WifiP2pDevice
 import android.net.wifi.p2p.WifiP2pInfo
 import android.net.wifi.p2p.WifiP2pManager
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
@@ -32,6 +34,8 @@ import kotlinx.coroutines.launch
 
 @SuppressLint("NotifyDataSetChanged")
 class FileSenderActivity : BaseActivity() {
+    private val handler = Handler()
+    private val interval = 5000 // 5 second
 
     private val tvDeviceState by lazy {
         findViewById<TextView>(R.id.tvDeviceState)
@@ -75,7 +79,9 @@ class FileSenderActivity : BaseActivity() {
             val ipAddress = wifiP2pInfo?.groupOwnerAddress?.hostAddress
             log("getContentLaunch $imageUri $ipAddress")
             if (!ipAddress.isNullOrBlank()) {
-                fileSenderViewModel.send(ipAddress = ipAddress, fileUri = imageUri)
+//                fileSenderViewModel.send(ipAddress = ipAddress, fileUri = imageUri)
+                startRepeatingCall(ipAddress = ipAddress, fileUri = imageUri)
+
             }
         }
     }
@@ -183,6 +189,7 @@ class FileSenderActivity : BaseActivity() {
         }
         btnChooseFile.setOnClickListener {
           // getContentLaunch.launch("image/*")
+            fileSenderViewModel.filesent=false
             getContentLaunch.launch("*/*")
         }
         btnDirectDiscover.setOnClickListener {
@@ -318,6 +325,22 @@ class FileSenderActivity : BaseActivity() {
 
     private fun clearLog() {
         tvLog.text = ""
+    }
+
+    private fun startRepeatingCall(ipAddress: String, fileUri: Uri) {
+        handler.postDelayed(object : Runnable {
+            override fun run() {
+                // Call your function here
+
+                if(fileSenderViewModel.filesent!=true) {
+
+                fileSenderViewModel.send(ipAddress = ipAddress, fileUri = fileUri)
+                    handler.postDelayed(this, interval.toLong())
+                }
+
+
+            }
+        }, interval.toLong())
     }
 
 }
